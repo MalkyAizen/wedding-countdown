@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
+      rel="stylesheet"
+    />
+    <title>ספירה לאחור לחתונה</title>
+    <style>
+      body {
+        font-family: "Varela Round", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        text-align: center;
+        background-image: url("C:/ספירה לאחור/רקע.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        background-size: cover;
+      }
+
+      .countdown-container {
+        background: linear-gradient(145deg, #ffffff, #fdeedd);
+        border-radius: 20px;
+        padding: 70px;
+        max-width: 600px;
+        width: 100%;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        position: relative;
+        animation: colorPulse 5s infinite alternate;
+      }
+
+      h1 {
+        font-size: 50px;
+        color: #585757;
+        font-family: "Varela Round", sans-serif;
+        margin-top: 10%;
+      }
+
+      .countdown {
+        font-size: 40px;
+        margin: 20px 0;
+        color: #fdeedd;
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row-reverse;
+      }
+
+      .time-segment {
+        font-size: 50px;
+        background-color: #fff3e6;
+        padding: 20px 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        font-family: "Varela Round", sans-serif;
+        color: #f5ebe0;
+        animation: colorPulse 6s infinite alternate;
+      }
+
+      .time-segment span {
+        display: block;
+        font-size: 20px;
+        color: #585757;
+        font-family: "Varela Round", sans-serif;
+      }
+
+      .profile-container {
+        position: absolute;
+        top: -120px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 230px;
+        height: 230px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #fdeedd;
+        box-shadow: 0 2px 4px #d4d3d1;
+      }
+
+      .profile-container img {
+        width: 120%;
+        height: 120%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="countdown-container">
+      <div class="profile-container">
+        <img src="C:\ספירה לאחור\אלי ומלכי.png" alt="אלי ומלכי" />
+      </div>
+      <h1>~ החתונה של אלי ומלכי ~</h1>
+      <br />
+      <div class="countdown" id="countdown">
+        <div class="time-segment">
+          <span id="days"></span>
+          <span>ימים</span>
+        </div>
+        <div class="time-segment">
+          <span id="hours"></span>
+          <span>שעות</span>
+        </div>
+        <div class="time-segment">
+          <span id="minutes"></span>
+          <span>דקות</span>
+        </div>
+        <div class="time-segment">
+          <span id="seconds"></span>
+          <span>שניות</span>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+      var weddingDate = new Date("2025-02-20T00:00:00");
+      var previousMinute = null;
+
+      function updateCountdown() {
+        var now = new Date();
+        var timeDifference = weddingDate - now;
+
+        if (timeDifference > 0) {
+          var daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+          var hoursLeft = Math.floor(
+            (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          var minutesLeft = Math.floor(
+            (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          var secondsLeft = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+          document.getElementById("days").textContent = daysLeft;
+          document.getElementById("hours").textContent = hoursLeft;
+          document.getElementById("minutes").textContent = minutesLeft;
+          document.getElementById("seconds").textContent = secondsLeft;
+
+          if (minutesLeft !== previousMinute) {
+            launchConfetti();
+            previousMinute = minutesLeft;
+          }
+        } else {
+          document.getElementById("countdown").innerHTML = "~ מזל טוב ~";
+        }
+      }
+
+      function launchConfetti() {
+        var duration = 3 * 1000;
+        var end = Date.now() + duration;
+
+        (function frame() {
+          confetti({
+            particleCount: 5,
+            angle: 90,
+            spread: 70,
+            origin: { x: Math.random(), y: Math.random() - 0.2 },
+            colors: ["#C0C0C0", "#FFFFFF", "#ffd700"],
+          });
+          if (Date.now() < end) {
+            requestAnimationFrame(frame);
+          }
+        })();
+      }
+
+      setInterval(updateCountdown, 1000);
+      updateCountdown();
+    </script>
+  </body>
+</html>
